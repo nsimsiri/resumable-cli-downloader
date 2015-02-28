@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+from Downloader import Downloader
+from urlparse import urlparse
+from argparse import ArgumentParser
+
+if (__name__ == '__main__'):
+	parser = ArgumentParser(prog='rget',description='a subset of wget.')
+	parser.add_argument('-o', nargs=2, dest='data', help='takes first input as the file name to download as, and second input to download from')
+	args = parser.parse_args()
+	filename = args.data[0]
+	rawurl = args.data[1]
+	#print(filename, rawurl)
+	url = urlparse(rawurl)
+	print(url.hostname)
+
+	directory = '/Users/Shared/rget_natcha' ## replace this dir
+	if (not('.'in filename)):
+		print("Please put an extension to the file name")
+	else:
+		rget = Downloader(filename, url.hostname, url.path, server_port=url.port, user_directory=directory)
+		rget.download(pgksize=2048)
